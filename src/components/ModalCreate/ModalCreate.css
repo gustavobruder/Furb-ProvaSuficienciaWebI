@@ -1,0 +1,27 @@
+.modal-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 24;
+    padding: 30px;
+}
+
+.modal-title {
+    margin: 0 0 10px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: rgb(82, 82, 82);
+}
+
+.modal-buttons-section {
+    margin-top: 10px;
+}
+
+.modal-button-save {
+    float: right;
+}
