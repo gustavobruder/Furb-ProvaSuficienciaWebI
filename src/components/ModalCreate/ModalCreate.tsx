@@ -50,8 +50,14 @@ const ModalCreate = () => {
     };
 
     return (
-        <div>
-            <Button onClick={handleOpen} variant="contained">Create Employee</Button>
+        <React.Fragment>
+            <Button
+                onClick={handleOpen}
+                variant="contained"
+                className="create-button"
+            >
+                Create Employee
+            </Button>
             <Modal open={open}>
                 <Box className="modal-box">
                     <h2 className="modal-title">Add employee</h2>
@@ -106,7 +112,7 @@ const ModalCreate = () => {
                     </div>
                 </Box>
             </Modal>
-        </div>
+        </React.Fragment>
     );
 };
 

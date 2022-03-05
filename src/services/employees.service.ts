@@ -1,3 +1,4 @@
+import { TableData } from "../components/Table/Table.data";
 import {
     EmployeeListResponse,
     EmployeeDetailResponse,
@@ -8,11 +9,19 @@ import {
 
 const baseUrl = 'http://dummy.restapiexample.com/api/v1';
 
-const getEmployeeList = async () => {
+const getEmployeeList = async (): Promise<TableData[]> => {
     const response = await fetch(`${baseUrl}/employees`);
     const json = await response.json();
     const employeeList = json as EmployeeListResponse;
     console.log('EmployeeList -> ', employeeList);
+    return employeeList.data == null ? [] : employeeList.data.map(x => {
+        return {
+            id: x.id,
+            employeeName: x.employee_name,
+            employeeSalary: x.employee_salary,
+            employeeAge: x.employee_age,
+        }
+    });
 };
 
 const getEmployeeDetail = async (id: number) => {
