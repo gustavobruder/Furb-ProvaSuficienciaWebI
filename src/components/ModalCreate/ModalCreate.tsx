@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import Notification, { NotificationState } from '../Notification/Notification';
 import { createEmployee } from '../../services/employees.service';
 
 interface EmployeeFields {
@@ -23,6 +24,11 @@ const ModalCreate = () => {
         salary: 0,
         age: 0,
     });
+    const [notification, setNotification] = useState<NotificationState>({
+        open: false,
+        message: '',
+        type: 'success',
+    });
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -32,8 +38,19 @@ const ModalCreate = () => {
         try{
             await createEmployee(employee.name, employee.salary, employee.age);
         } catch (error) {
-            console.log('error -> ', error);
+            setNotification({
+                open: true,
+                message: 'Failed to create employee!',
+                type: 'error',
+            });
+            setLoading(false);
+            return;
         }
+        setNotification({
+            open: true,
+            message: 'Employee created successfully!',
+            type: 'success',
+        });
         setLoading(false);
         setEmployee({name: '', salary: 0, age: 0});
     };
@@ -58,6 +75,14 @@ const ModalCreate = () => {
             >
                 Create Employee
             </Button>
+            <Notification
+                message={notification.message}
+                type={notification.type}
+                open={notification.open}
+                handleClose={() => setNotification({
+                    open: false, message: '', type: notification.type
+                })}
+            />
             <Modal open={open}>
                 <Box className="modal-box">
                     <h2 className="modal-title">Add employee</h2>

@@ -6,6 +6,7 @@ import {
     EmployeeUpdateResponse,
     EmployeeDeleteResponse
 } from "../metadata/employees.model";
+import { FetchError } from "../metadata/fetch-error.model";
 
 const baseUrl = 'http://dummy.restapiexample.com/api/v1';
 
@@ -26,6 +27,9 @@ const getEmployeeList = async (): Promise<TableData[]> => {
 
 const getEmployeeDetail = async (id: number) => {
     const response = await fetch(`${baseUrl}/employee/${id}`);
+    if (!response.ok) {
+        throw new FetchError(response.status, `Failed to get employee ${id}!`);
+    }
     const json = await response.json();
     const employeeDetail = json as EmployeeDetailResponse;
     console.log('EmployeeDetail -> ', employeeDetail);
@@ -41,6 +45,9 @@ const createEmployee = async (name: string, salary: number, age: number) => {
         method: 'POST',
         body: JSON.stringify(payload),
     });
+    if (!response.ok) {
+        throw new FetchError(response.status, 'Failed to create employee!');
+    }
     const json = await response.json();
     const employeeCreation = json as EmployeeCreateResponse;
     console.log('EmployeeCreation -> ', employeeCreation);
@@ -56,6 +63,9 @@ const updateEmployee = async (id: number, name: string, salary: number, age: num
         method: 'PUT',
         body: JSON.stringify(payload),
     });
+    if (!response.ok) {
+        throw new FetchError(response.status, `Failed to update employee ${id}!`);
+    }
     const json = await response.json();
     const employeeUpdate = json as EmployeeUpdateResponse;
     console.log('EmployeeUpdate -> ', employeeUpdate);
@@ -65,6 +75,9 @@ const deleteEmployee = async (id: number) => {
     const response = await fetch(`${baseUrl}/delete/${id}`, {
         method: 'DELETE',
     });
+    if (!response.ok) {
+        throw new FetchError(response.status, `Failed to delete employee ${id}!`);
+    }
     const json = await response.json();
     const employeeDeletion = json as EmployeeDeleteResponse;
     console.log('EmployeeDeletion -> ', employeeDeletion);

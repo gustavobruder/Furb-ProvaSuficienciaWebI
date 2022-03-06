@@ -5,10 +5,12 @@ import ButtonDelete from '../ButtonDelete/ButtonDelete';
 import ModalCreate from '../ModalCreate/ModalCreate';
 import EmployeeTable from '../Table/Table';
 import { TableData } from '../Table/Table.data';
+import Notification from '../Notification/Notification';
 import './List.css';
 
 const List = () => {
     const [employees, setEmployees] = useState<TableData[]>([]);
+    const [openNotification, setOpenNotification] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -16,7 +18,7 @@ const List = () => {
                 const response = await getEmployeeList();
                 setEmployees(response);
             } catch (error) {
-                console.log('Error getting employee list -> ', error);
+                setOpenNotification(true);
                 setEmployees([]);
             }
         })();
@@ -24,6 +26,12 @@ const List = () => {
 
     return (
         <div>
+            <Notification
+                message='Failed to get all employee data!'
+                type='error'
+                open={openNotification}
+                handleClose={() => setOpenNotification(false)}
+            />
             <Paper variant="outlined" className="list-actions-paper" >
                 <ButtonDelete></ButtonDelete>
                 <ModalCreate></ModalCreate>
