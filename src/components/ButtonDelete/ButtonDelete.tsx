@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Notification, { NotificationState } from '../Notification/Notification';
-import { deleteEmployee } from '../../services/employees.service';
+import { deleteEmployee } from '../../services/employees.rest.service';
 import './ButtonDelete.css';
 
 const ButtonDelete = () => {

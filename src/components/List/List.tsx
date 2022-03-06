@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { getEmployeeList } from '../../services/employees.service';
+import { getEmployeeList } from '../../services/employees.rest.service';
 import ButtonDelete from '../ButtonDelete/ButtonDelete';
 import ModalCreate from '../ModalCreate/ModalCreate';
 import EmployeeTable from '../Table/Table';
