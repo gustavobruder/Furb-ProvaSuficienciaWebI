@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 import Notification, { NotificationState } from '../Notification/Notification';
-import { createEmployee } from '../../services/employees.rest.service';
+import { createEmployee } from '../../services/employees.facade';
 
 interface EmployeeFields {
     name: string;
@@ -15,7 +15,13 @@ interface EmployeeFields {
     age: number;
 }
 
-const ModalCreate = () => {
+interface ModalCreateDelete {
+    onRefetch: () => void;
+}
+
+const ModalCreate = (props: ModalCreateDelete) => {
+    const { onRefetch } = props;
+
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [disabled, setDisabled] = useState(true);
@@ -54,6 +60,7 @@ const ModalCreate = () => {
         setLoading(false);
         setDisabled(true);
         setEmployee({name: '', salary: 0, age: 0});
+        onRefetch();
     };
 
     const validateFields = (fields: EmployeeFields) => {

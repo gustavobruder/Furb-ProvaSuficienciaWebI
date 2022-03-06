@@ -100,10 +100,11 @@ interface EmployeeUpdate {
 
 interface EmployeeTableProps {
   rows: TableData[];
+  onRefetch: () => void;
 }
 
 const EmployeeTable = (props: EmployeeTableProps) => {
-  const { rows } = props;
+  const { rows, onRefetch } = props;
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -133,6 +134,7 @@ const EmployeeTable = (props: EmployeeTableProps) => {
         employeeName={employeeUpdate.name}
         employeeSalary={employeeUpdate.salary}
         employeeAge={employeeUpdate.age}
+        onRefetch={onRefetch}
       />
     );
 

@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 import Notification, { NotificationState } from '../Notification/Notification';
-import { updateEmployee } from '../../services/employees.rest.service';
+import { updateEmployee } from '../../services/employees.facade';
 
 interface EmployeeFields {
     name: string;
@@ -22,6 +22,7 @@ interface ModalUpdateProps {
     employeeName: string;
     employeeSalary: number;
     employeeAge: number;
+    onRefetch: () => void;
 }
 
 const ModalUpdate = (props: ModalUpdateProps) => {
@@ -31,7 +32,8 @@ const ModalUpdate = (props: ModalUpdateProps) => {
         employeeId,
         employeeName,
         employeeSalary,
-        employeeAge
+        employeeAge,
+        onRefetch
     } = props;
 
     const [loading, setLoading] = useState(false);
@@ -68,6 +70,7 @@ const ModalUpdate = (props: ModalUpdateProps) => {
         setLoading(false);
         setDisabled(true);
         setEmployee({name: '', salary: 0, age: 0});
+        onRefetch();
     };
 
     const validateFields = (fields: EmployeeFields) => {

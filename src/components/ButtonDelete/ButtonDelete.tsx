@@ -2,10 +2,16 @@ import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Notification, { NotificationState } from '../Notification/Notification';
-import { deleteEmployee } from '../../services/employees.rest.service';
+import { deleteEmployee } from '../../services/employees.facade';
 import './ButtonDelete.css';
 
-const ButtonDelete = () => {
+interface ButtonDelete {
+    onRefetch: () => void;
+}
+
+const ButtonDelete = (props: ButtonDelete) => {
+    const { onRefetch } = props;
+
     const [employeeId, setEmployeeId] = useState(0);
     const [loading, setLoading] = useState(false);
     const [disabled, setDisabled] = useState(true);
@@ -42,6 +48,7 @@ const ButtonDelete = () => {
         setEmployeeId(0);
         setDisabled(true);
         setLoading(false);
+        onRefetch();
     };
 
     return (

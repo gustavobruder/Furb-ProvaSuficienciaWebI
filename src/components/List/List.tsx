@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { getEmployeeList } from '../../services/employees.rest.service';
+import { getEmployees } from '../../services/employees.facade';
 import ButtonDelete from '../ButtonDelete/ButtonDelete';
 import ModalCreate from '../ModalCreate/ModalCreate';
 import EmployeeTable from '../Table/Table';
@@ -11,18 +11,23 @@ import './List.css';
 const List = () => {
     const [employees, setEmployees] = useState<TableData[]>([]);
     const [openNotification, setOpenNotification] = useState(false);
+    const [refetch, setRefetch] = useState<number>(0);
+
+    const handleRefetch = () => {
+        setRefetch(refetch + 1);
+    };
 
     useEffect(() => {
         (async () => {
             try {
-                const response = await getEmployeeList();
+                const response = await getEmployees();
                 setEmployees(response);
             } catch (error) {
                 setOpenNotification(true);
                 setEmployees([]);
             }
         })();
-      }, []);
+      }, [refetch]);
 
     return (
         <div>
@@ -33,10 +38,10 @@ const List = () => {
                 handleClose={() => setOpenNotification(false)}
             />
             <Paper variant="outlined" className="list-actions-paper" >
-                <ButtonDelete></ButtonDelete>
-                <ModalCreate></ModalCreate>
+                <ButtonDelete onRefetch={handleRefetch}></ButtonDelete>
+                <ModalCreate onRefetch={handleRefetch}></ModalCreate>
             </Paper>
-            <EmployeeTable rows={employees}></EmployeeTable>
+            <EmployeeTable rows={employees} onRefetch={handleRefetch}></EmployeeTable>
         </div>
     );
 };
